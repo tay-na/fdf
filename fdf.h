@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 13:37:38 by tollivan          #+#    #+#             */
-/*   Updated: 2019/11/14 19:14:01 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/11/15 20:38:10 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 
 # include <stdio.h>
 
+# define WIDTH 1000
+# define HEIGHT 1000
+
 typedef struct	s_point
 {
 	int		x;
@@ -32,6 +35,7 @@ typedef struct	s_coords
 	t_point p1;
 	t_point d;
 	t_point s;
+	t_point	start;
 }				t_coords;
 
 typedef struct	s_struct
@@ -43,6 +47,7 @@ typedef struct	s_struct
 	int			**map;
 	int			w;
 	int			h;
+	int			z;
 	int			step;
 	int			col;
 	t_coords	coords;
@@ -57,5 +62,8 @@ void	draw_line(t_struct *fdf);
 int		draw_map(t_struct *fdf);
 int		deal_key(int key, void *param);
 int		draw_window(t_struct *fdf);
+int		key_press(int key, t_struct *fdf);
+void		move_map(int key, t_struct *fdf);
+void	erase_image(t_struct *fdf);
 
 #endif

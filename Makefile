@@ -1,6 +1,6 @@
 NAME = fdf
 
-SRC = main.c map.c draw.c
+SRC = main.c map.c draw.c keys.c utilities.c
 
 OBJ = $(SRC:%.c=%.o)
 
