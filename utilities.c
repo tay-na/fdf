@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 19:19:33 by tollivan          #+#    #+#             */
-/*   Updated: 2019/11/15 20:03:16 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/11/25 17:33:08 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	erase_image(t_struct *fdf)
 	int		i;
 
 	i = 0;
-	while (i < (1000 * 1000 - 1))
+	while (i < (HEIGHT * WIDTH - 1))
 	{
 		fdf->img_pix[i] = 0x000000;
 		i++;

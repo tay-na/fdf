@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:10:00 by tollivan          #+#    #+#             */
-/*   Updated: 2019/11/19 19:16:28 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/11/25 17:30:13 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	put_pixel(t_struct *fdf, int x, int y)
 {
 	int		p;
 
-	p = y * 1000 + x;
+	p = y * WIDTH + x;
 	fdf->img_pix[p] = fdf->col; 
 }
 
-void	iso(int *x, int *y/*,  int z */)
+void	iso(int *x, int *y, int z)
 {
     int previous_x;
     int previous_y;
@@ -28,7 +28,7 @@ void	iso(int *x, int *y/*,  int z */)
     previous_x = *x;
     previous_y = *y;
     *x = (previous_x - previous_y) * cos(0.523599);
-    *y = /* -z +  */(previous_x + previous_y) * sin(0.523599);
+    *y = -z + (previous_x + previous_y) * sin(0.523599);
 }
 
 void	draw_line_bes(t_struct *fdf)
@@ -66,6 +66,7 @@ void	draw_line(t_struct *fdf)
 	fdf->coords.s.x = fdf->coords.p0.x < fdf->coords.p1.x ? 1 : -1;
 	fdf->coords.s.y = fdf->coords.p0.y < fdf->coords.p1.y ? 1 : -1;
 	draw_line_bes(fdf);
+	// mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 }
 
 int		draw_hor(t_struct *fdf)
@@ -86,8 +87,8 @@ int		draw_hor(t_struct *fdf)
 			fdf->coords.p1.x = (j + 1) * fdf->step + fdf->coords.start.y;
 			if (fdf->proj == 150)
 			{
-				iso(&fdf->coords.p0.x, &fdf->coords.p0.y);
-				iso(&fdf->coords.p1.x, &fdf->coords.p1.y);
+				iso(&fdf->coords.p0.x, &fdf->coords.p0.y, fdf->map[i][j]);
+				iso(&fdf->coords.p1.x, &fdf->coords.p1.y, fdf->map[i][j]);
 			}
 			draw_line(fdf);
 			j++;
@@ -115,8 +116,8 @@ int		draw_vert(t_struct *fdf)
 			fdf->coords.p1.y = (j + 1) * fdf->step + fdf->coords.start.x;
 			if (fdf->proj == 150)
 			{
-				iso(&fdf->coords.p0.x, &fdf->coords.p0.y);
-				iso(&fdf->coords.p1.x, &fdf->coords.p1.y);
+				iso(&fdf->coords.p0.x, &fdf->coords.p0.y, fdf->map[i][j]);
+				iso(&fdf->coords.p1.x, &fdf->coords.p1.y, fdf->map[i][j]);
 			}
 			draw_line(fdf);
 			j++;
