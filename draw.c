@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:10:00 by tollivan          #+#    #+#             */
-/*   Updated: 2019/11/28 00:14:31 by wife             ###   ########.fr       */
+/*   Updated: 2019/12/12 19:42:29 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	put_pixel(t_struct *fdf, int x, int y)
 	int		p;
 
 	p = y * WIDTH + x;
-	if (x > 0 && x < HEIGHT && y > 0 && y < WIDTH)
-		fdf->img_pix[p] = fdf->col; 
+	if (x > 0 && x < WIDTH && y > 0 && y < HEIGHT)
+	fdf->img_pix[p] = fdf->col; 
 }
 
 void	iso(int *x, int *y, int z)
@@ -67,16 +67,15 @@ void	draw_line(t_struct *fdf)
 	fdf->coords.s.x = fdf->coords.p0.x < fdf->coords.p1.x ? 1 : -1;
 	fdf->coords.s.y = fdf->coords.p0.y < fdf->coords.p1.y ? 1 : -1;
 	draw_line_bes(fdf);
+	// mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 }
 
 int		draw_hor(t_struct *fdf)
 {
 	int		i;
 	int		j;
-	int		z;
 	
 	i = 0;
-	z = 0;
 	fdf->col = 0xFFC000;
 	while (i < fdf->h)
 	{
@@ -89,10 +88,8 @@ int		draw_hor(t_struct *fdf)
 			fdf->coords.p1.x = (j + 1) * fdf->step + fdf->coords.start.y;
 			if (fdf->proj == 150)
 			{
-				if (fdf->map[i][j] != 0)
-					z = fdf->map[i][j] + fdf->high;
-				iso(&fdf->coords.p0.x, &fdf->coords.p0.y, z);
-				iso(&fdf->coords.p1.x, &fdf->coords.p1.y, z);
+				iso(&fdf->coords.p0.x, &fdf->coords.p0.y, (fdf->map[i][j] * fdf->step));
+				iso(&fdf->coords.p1.x, &fdf->coords.p1.y, (fdf->map[i][j + 1] * fdf->step));
 			}
 			draw_line(fdf);
 			j++;
@@ -106,32 +103,27 @@ int		draw_vert(t_struct *fdf)
 {
 	int		i;
 	int		j;
-	int		z;
-
-	i = 0;
-	z = 0;
+	j = 0;
 	fdf->col = 0xFFFFFF;
 	
-	while (i < fdf->w)
+	while (j < fdf->w)
 	{
-		j = 0;
-		while (j < fdf->h - 1)
+		i = 0;
+		while (i < fdf->h - 1)
 		{
-			fdf->coords.p0.x = i * fdf->step + fdf->coords.start.y;
-			fdf->coords.p0.y = j * fdf->step + fdf->coords.start.x;
-			fdf->coords.p1.x = i * fdf->step + fdf->coords.start.y;
-			fdf->coords.p1.y = (j + 1) * fdf->step + fdf->coords.start.x;
+			fdf->coords.p0.x = j * fdf->step + fdf->coords.start.y;
+			fdf->coords.p0.y = i * fdf->step + fdf->coords.start.x;
+			fdf->coords.p1.x = j * fdf->step + fdf->coords.start.y;
+			fdf->coords.p1.y = (i + 1) * fdf->step + fdf->coords.start.x;
 			if (fdf->proj == 150)
 			{
-				if (fdf->map[i][j] != 0)
-					z = fdf->map[i][j] + fdf->high;
-				iso(&fdf->coords.p0.x, &fdf->coords.p0.y, z);
-				iso(&fdf->coords.p1.x, &fdf->coords.p1.y, z);
+				iso(&fdf->coords.p0.x, &fdf->coords.p0.y, (fdf->map[i][j] * fdf->step));
+				iso(&fdf->coords.p1.x, &fdf->coords.p1.y, (fdf->map[i + 1][j] * fdf->step));
 			}
 			draw_line(fdf);
-			j++;
+			i++;
 		}
-		i++;
+		j++;
 	}
 	return (0);
 }
@@ -155,7 +147,7 @@ int		draw_window(t_struct *fdf)
 	fdf->img_pix = (int *)mlx_get_data_addr(fdf->img_ptr, &bpp, &s_l, &end);
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
-	mlx_key_hook(fdf->win_ptr, key_press, fdf);
+	mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
 	mlx_loop(fdf->mlx_ptr);
 	return (0);
 }

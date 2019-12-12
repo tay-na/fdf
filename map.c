@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:05:10 by tollivan          #+#    #+#             */
-/*   Updated: 2019/11/27 12:27:55 by wife             ###   ########.fr       */
+/*   Updated: 2019/12/12 19:53:40 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ int		get_int_arr(t_struct *fdf, char **map_ch)
 	i = 0;
 	while (map_ch[i])
 	{
-		printf("privet   ");
+		// printf("privet   ");
 		char_to_int(map_ch[i], &(fdf->map[i]), fdf);
-		printf("%d   ", fdf->map[i][0]);
+		/* printf("%d   ", fdf->map[i][0]);
 		printf("%d   ", fdf->map[i][1]);
 		printf("%d   ", fdf->map[i][2]);
 		printf("%d   ", fdf->map[i][3]);
@@ -69,9 +69,8 @@ int		get_int_arr(t_struct *fdf, char **map_ch)
 		printf("%d   ", fdf->map[i][6]);
 		printf("%d   ", fdf->map[i][7]);
 		printf("%d   ", fdf->map[i][8]);
-		printf("%d   ", fdf->map[i][9]);
+		printf("%d   ", fdf->map[i][9]); */
 		// printf("%d\n", fdf->map[i][10]);
-		printf("\n");
 		i++;
 	}
 	return (0);
@@ -103,7 +102,7 @@ int		read_map(char *argv, t_struct *fdf)//add returns
 	}
 	map_ch[j] = NULL;
 	get_int_arr(fdf, map_ch);
-	printf("check1");
+	// printf("check1");
 	fdf->coords.start.x = 200;
 	fdf->coords.start.y = 200;
 	fdf->step = 50;

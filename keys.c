@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keys.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 18:20:54 by tollivan          #+#    #+#             */
-/*   Updated: 2019/11/28 00:12:21 by wife             ###   ########.fr       */
+/*   Updated: 2019/12/12 19:41:55 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ void	zoom_map(int key, t_struct *fdf)
 		fdf->step += 5;
 	if (key == 86)
 		fdf->step -= 5;
+	if (key == 91)
+		fdf->high += 1;
+	if (key == 84)
+		fdf->high -= 1;
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);	
 }
@@ -55,11 +59,9 @@ int		key_press(int key, t_struct *fdf)
 		exit(0);
 	if (key >= 123 && key <= 126)
 		move_map(key, fdf);
-	if (key == 88 || key == 86)
+	if (key == 88 || key == 86 || key == 84 || key == 91)
 		zoom_map(key, fdf);
 	if (key == 87)
 		change_projection(key, fdf);
 	return (0);
 }
-
-EX1KMBKZSKC
