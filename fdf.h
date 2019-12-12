@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 13:37:38 by tollivan          #+#    #+#             */
-/*   Updated: 2019/11/15 20:38:10 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/11/28 00:12:24 by wife             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 
 # include <stdio.h>
 
-# define WIDTH 1000
-# define HEIGHT 1000
+# define WIDTH 1500
+# define HEIGHT 1200
 
 typedef struct	s_point
 {
@@ -47,13 +47,14 @@ typedef struct	s_struct
 	int			**map;
 	int			w;
 	int			h;
-	int			z;
+	int			high;
 	int			step;
 	int			col;
+	int			proj;
 	t_coords	coords;
 }				t_struct;
 
-void	char_to_int(char *map_ch, int *map, t_struct *fdf);
+void	char_to_int(char *map_ch, int **map, t_struct *fdf);
 int		get_int_arr(t_struct *fdf, char **map_ch);
 int		read_map(char *argv, t_struct *fdf);
 void	put_pixel(t_struct *fdf, int x, int y);

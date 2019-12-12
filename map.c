@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:05:10 by tollivan          #+#    #+#             */
-/*   Updated: 2019/11/25 20:16:41 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/11/27 12:27:55 by wife             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int		get_int_arr(t_struct *fdf, char **map_ch)
 		printf("%d   ", fdf->map[i][7]);
 		printf("%d   ", fdf->map[i][8]);
 		printf("%d   ", fdf->map[i][9]);
-		printf("%d\n", fdf->map[i][10]);
+		// printf("%d\n", fdf->map[i][10]);
+		printf("\n");
 		i++;
 	}
 	return (0);
@@ -103,8 +104,9 @@ int		read_map(char *argv, t_struct *fdf)//add returns
 	map_ch[j] = NULL;
 	get_int_arr(fdf, map_ch);
 	printf("check1");
-	fdf->coords.start.x = 400;
-	fdf->coords.start.y = 400;
+	fdf->coords.start.x = 200;
+	fdf->coords.start.y = 200;
 	fdf->step = 50;
+	fdf->high = 0;
 	return (1);
 }
