@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:05:10 by tollivan          #+#    #+#             */
-/*   Updated: 2019/12/12 19:53:40 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/12/17 16:04:52 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,12 @@ int		read_map(char *argv, t_struct *fdf)//add returns
 	map_ch[j] = NULL;
 	get_int_arr(fdf, map_ch);
 	// printf("check1");
-	fdf->coords.start.x = 200;
-	fdf->coords.start.y = 200;
-	fdf->step = 50;
+	fdf->coords.start.x = HEIGHT / 2;
+	fdf->coords.start.y = WIDTH * 5 / 6;
+	fdf->step = 30;
 	fdf->high = 0;
+	fdf->angle_x = 0;
+	fdf->angle_y = 0;
+	fdf->angle_z = 0;
 	return (1);
 }

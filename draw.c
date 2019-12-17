@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:10:00 by tollivan          #+#    #+#             */
-/*   Updated: 2019/12/12 19:42:29 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/12/17 16:00:54 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,6 @@ void	put_pixel(t_struct *fdf, int x, int y)
 	p = y * WIDTH + x;
 	if (x > 0 && x < WIDTH && y > 0 && y < HEIGHT)
 	fdf->img_pix[p] = fdf->col; 
-}
-
-void	iso(int *x, int *y, int z)
-{
-    int previous_x;
-    int previous_y;
-
-    previous_x = *x;
-    previous_y = *y;
-    *x = (previous_x - previous_y) * cos(0.523599);
-    *y = -z + (previous_x + previous_y) * sin(0.523599);
 }
 
 void	draw_line_bes(t_struct *fdf)
@@ -82,15 +71,11 @@ int		draw_hor(t_struct *fdf)
 		j = 0;
 		while (j < fdf->w - 1)
 		{
-			fdf->coords.p0.y = i * fdf->step + fdf->coords.start.x;
-			fdf->coords.p0.x = j * fdf->step + fdf->coords.start.y;
-			fdf->coords.p1.y = i * fdf->step + fdf->coords.start.x;
-			fdf->coords.p1.x = (j + 1) * fdf->step + fdf->coords.start.y;
-			if (fdf->proj == 150)
-			{
-				iso(&fdf->coords.p0.x, &fdf->coords.p0.y, (fdf->map[i][j] * fdf->step));
-				iso(&fdf->coords.p1.x, &fdf->coords.p1.y, (fdf->map[i][j + 1] * fdf->step));
-			}
+			fdf->coords.p0.y = (i - fdf->h - 1) * fdf->step + fdf->coords.start.x;
+			fdf->coords.p0.x = (j - fdf->w - 1) * fdf->step + fdf->coords.start.y;
+			fdf->coords.p1.y = (i - fdf->h - 1) * fdf->step + fdf->coords.start.x;
+			fdf->coords.p1.x = (j - fdf->w) * fdf->step + fdf->coords.start.y;
+			transform(&fdf->coords.p0.x, &fdf->coords.p0.y, &fdf->coords.p1.x, &fdf->coords.p1.y, fdf->map[i][j], fdf->map[i][j + 1], fdf);
 			draw_line(fdf);
 			j++;
 		}
@@ -111,15 +96,11 @@ int		draw_vert(t_struct *fdf)
 		i = 0;
 		while (i < fdf->h - 1)
 		{
-			fdf->coords.p0.x = j * fdf->step + fdf->coords.start.y;
-			fdf->coords.p0.y = i * fdf->step + fdf->coords.start.x;
-			fdf->coords.p1.x = j * fdf->step + fdf->coords.start.y;
-			fdf->coords.p1.y = (i + 1) * fdf->step + fdf->coords.start.x;
-			if (fdf->proj == 150)
-			{
-				iso(&fdf->coords.p0.x, &fdf->coords.p0.y, (fdf->map[i][j] * fdf->step));
-				iso(&fdf->coords.p1.x, &fdf->coords.p1.y, (fdf->map[i + 1][j] * fdf->step));
-			}
+			fdf->coords.p0.x = (j - fdf->w - 1) * fdf->step + fdf->coords.start.y;
+			fdf->coords.p0.y = (i - fdf->h - 1) * fdf->step + fdf->coords.start.x;
+			fdf->coords.p1.x = (j - fdf->w - 1) * fdf->step + fdf->coords.start.y;
+			fdf->coords.p1.y = (i - fdf->h) * fdf->step + fdf->coords.start.x;
+			transform(&fdf->coords.p0.x, &fdf->coords.p0.y, &fdf->coords.p1.x, &fdf->coords.p1.y, fdf->map[i][j], fdf->map[i + 1][j], fdf);
 			draw_line(fdf);
 			i++;
 		}
