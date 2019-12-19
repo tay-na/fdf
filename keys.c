@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 18:20:54 by tollivan          #+#    #+#             */
-/*   Updated: 2019/12/17 16:49:21 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/12/19 19:41:09 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void	move_map(int key, t_struct *fdf)
 {
 	erase_image(fdf);
 	if (key == 123)
-		fdf->coords.start.y -= 10;
+		fdf->c.start.y -= 10;
 	if (key == 124)
-		fdf->coords.start.y += 10;
+		fdf->c.start.y += 10;
 	if (key == 125)
-		fdf->coords.start.x += 10;
+		fdf->c.start.x += 10;
 	if (key == 126)
-		fdf->coords.start.x -= 10;
+		fdf->c.start.x -= 10;
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 }
@@ -57,17 +57,17 @@ void	rotate(int key, t_struct *fdf)
 {
 	erase_image(fdf);
 	if (key == 65)
-		fdf->angle_x += 0.1;
+		fdf->angle_x += 0.05;
 	if (key == 82)
-		fdf->angle_x -= 0.1;
+		fdf->angle_x -= 0.05;
 	if (key == 85)
-		fdf->angle_y += 1;
+		fdf->angle_y += 0.05;
 	if (key == 83)
-		fdf->angle_y -= 1;
+		fdf->angle_y -= 0.05;
 	if (key == 92)
-		fdf->angle_z += 1;
+		fdf->angle_z += 0.05;
 	if (key == 89)
-		fdf->angle_z -= 1;
+		fdf->angle_z -= 0.05;
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 }

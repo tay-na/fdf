@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 13:37:38 by tollivan          #+#    #+#             */
-/*   Updated: 2019/11/28 00:12:24 by wife             ###   ########.fr       */
+/*   Updated: 2019/12/19 19:40:38 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@
 
 # include <stdio.h>
 
-# define WIDTH 1500
+# define WIDTH 1900
 # define HEIGHT 1200
+# define ISO 0.523599
 
 typedef struct	s_point
 {
 	int		x;
-	int		y;	
+	int		y;
+	int		z;
 }				t_point;
 
 typedef struct	s_coords
@@ -49,9 +51,12 @@ typedef struct	s_struct
 	int			h;
 	int			high;
 	int			step;
+	double		angle_x;
+	double		angle_y;
+	double		angle_z;
 	int			col;
 	int			proj;
-	t_coords	coords;
+	t_coords	c;
 }				t_struct;
 
 void	char_to_int(char *map_ch, int **map, t_struct *fdf);
@@ -59,12 +64,13 @@ int		get_int_arr(t_struct *fdf, char **map_ch);
 int		read_map(char *argv, t_struct *fdf);
 void	put_pixel(t_struct *fdf, int x, int y);
 void	draw_line_bes(t_struct *fdf);
-void	draw_line(t_struct *fdf);
+void	draw_line(t_point p0, t_point p1, t_struct *fdf);
 int		draw_map(t_struct *fdf);
 int		deal_key(int key, void *param);
 int		draw_window(t_struct *fdf);
 int		key_press(int key, t_struct *fdf);
-void		move_map(int key, t_struct *fdf);
+void	move_map(int key, t_struct *fdf);
 void	erase_image(t_struct *fdf);
+t_point	change(t_point *point, t_struct *fdf);
 
 #endif

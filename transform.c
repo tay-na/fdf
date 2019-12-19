@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 12:52:43 by tollivan          #+#    #+#             */
-/*   Updated: 2019/12/17 16:33:39 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/12/19 19:40:46 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,19 @@ void		rotate_z(int *x, int *y, t_struct *fdf)
 	*x = -prev_y * sin(fdf->angle_z) + prev_x * cos(fdf->angle_z);
 }
 
-void	transform(int *x_0, int *y_0, int *x_1, int *y_1, int z_0, int z_1, t_struct *fdf)
+t_point	change(t_point *point, t_struct *fdf)
 {
-	rotate_x(y_0, &z_0, fdf);
-	rotate_x(y_1, &z_1, fdf);
-	rotate_y(x_0, &z_0, fdf);
-	rotate_y(x_1, &z_1, fdf);
-	rotate_z(x_0, y_0, fdf);
-	rotate_z(x_1, y_1, fdf);
+	point->x *= fdf->step;
+	point->y *= fdf->step;
+	point->z *= fdf->step;
+	point->x += fdf->c.start.y;
+	point->y += fdf->c.start.x; 
+	rotate_x(&point->y, &point->z, fdf);
+	rotate_y(&point->x, &point->z, fdf);
+	rotate_z(&point->x, &point->y, fdf);
 	if (fdf->proj == 150)
 	{
-		iso(x_0, y_0, (z_0 * fdf->step));
-		iso(x_1, y_1, (z_1 * fdf->step));
+		iso(&point->x, &point->y, point->z);
 	}
+	return (*point);
 }

@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:10:00 by tollivan          #+#    #+#             */
-/*   Updated: 2019/12/17 16:00:54 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/12/19 19:40:12 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,38 +28,38 @@ void	draw_line_bes(t_struct *fdf)
 	int		err;
 	int		err2;
 
-	x = fdf->coords.p0.x;
-	y = fdf->coords.p0.y;
-	err = fdf->coords.d.x - fdf->coords.d.y;
-	while (x != fdf->coords.p1.x || y != fdf->coords.p1.y)
+	x = fdf->c.p0.x;
+	y = fdf->c.p0.y;
+	err = fdf->c.d.x - fdf->c.d.y;
+	while (x != fdf->c.p1.x || y != fdf->c.p1.y)
 	{
 		put_pixel(fdf, x, y);
 		err2 = err * 2;
-		if (err2 > fdf->coords.d.y * -1)
+		if (err2 > fdf->c.d.y * -1)
 		{
-			err = err - fdf->coords.d.y;
-			x = x + fdf->coords.s.x;
+			err = err - fdf->c.d.y;
+			x = x + fdf->c.s.x;
 		}
-		if (err2 < fdf->coords.d.x)
+		if (err2 < fdf->c.d.x)
 		{
-			err = err + fdf->coords.d.x;
-			y = y + fdf->coords.s.y;
+			err = err + fdf->c.d.x;
+			y = y + fdf->c.s.y;
 		}
 	}
 	put_pixel(fdf, x, y);
 }
 
-void	draw_line(t_struct *fdf)
+void	draw_l(t_point p0, t_point p1, t_struct *fdf)
 {
-	fdf->coords.d.x = abs(fdf->coords.p1.x - fdf->coords.p0.x);
-	fdf->coords.d.y = abs(fdf->coords.p1.y - fdf->coords.p0.y);
-	fdf->coords.s.x = fdf->coords.p0.x < fdf->coords.p1.x ? 1 : -1;
-	fdf->coords.s.y = fdf->coords.p0.y < fdf->coords.p1.y ? 1 : -1;
+	fdf->c.d.x = abs(p1.x - p0.x);
+	fdf->c.d.y = abs(p1.y - p0.y);
+	fdf->c.s.x = p0.x < p1.x ? 1 : -1;
+	fdf->c.s.y = p0.y < p1.y ? 1 : -1;
 	draw_line_bes(fdf);
 	// mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 }
 
-int		draw_hor(t_struct *fdf)
+/* int		draw_hor(t_struct *fdf)
 {
 	int		i;
 	int		j;
@@ -71,11 +71,11 @@ int		draw_hor(t_struct *fdf)
 		j = 0;
 		while (j < fdf->w - 1)
 		{
-			fdf->coords.p0.y = (i - fdf->h - 1) * fdf->step + fdf->coords.start.x;
-			fdf->coords.p0.x = (j - fdf->w - 1) * fdf->step + fdf->coords.start.y;
-			fdf->coords.p1.y = (i - fdf->h - 1) * fdf->step + fdf->coords.start.x;
-			fdf->coords.p1.x = (j - fdf->w) * fdf->step + fdf->coords.start.y;
-			transform(&fdf->coords.p0.x, &fdf->coords.p0.y, &fdf->coords.p1.x, &fdf->coords.p1.y, fdf->map[i][j], fdf->map[i][j + 1], fdf);
+			fdf->c.p0.y = i * fdf->step + fdf->c.start.x;
+			fdf->c.p0.x = j * fdf->step + fdf->c.start.y;
+			fdf->c.p1.y = i * fdf->step + fdf->c.start.x;
+			fdf->c.p1.x = (j + 1) * fdf->step + fdf->c.start.y;
+			transform(&fdf->c.p0.x, &fdf->c.p0.y, &fdf->c.p1.x, &fdf->c.p1.y, fdf->map[i][j], fdf->map[i][j + 1], fdf);
 			draw_line(fdf);
 			j++;
 		}
@@ -96,23 +96,58 @@ int		draw_vert(t_struct *fdf)
 		i = 0;
 		while (i < fdf->h - 1)
 		{
-			fdf->coords.p0.x = (j - fdf->w - 1) * fdf->step + fdf->coords.start.y;
-			fdf->coords.p0.y = (i - fdf->h - 1) * fdf->step + fdf->coords.start.x;
-			fdf->coords.p1.x = (j - fdf->w - 1) * fdf->step + fdf->coords.start.y;
-			fdf->coords.p1.y = (i - fdf->h) * fdf->step + fdf->coords.start.x;
-			transform(&fdf->coords.p0.x, &fdf->coords.p0.y, &fdf->coords.p1.x, &fdf->coords.p1.y, fdf->map[i][j], fdf->map[i + 1][j], fdf);
+			fdf->c.p0.x = j * fdf->step + fdf->c.start.y;
+			fdf->c.p0.y = i * fdf->step + fdf->c.start.x;
+			fdf->c.p1.x = j * fdf->step + fdf->c.start.y;
+			fdf->c.p1.y = (i + 1) * fdf->step + fdf->c.start.x;
+			transform(&fdf->c.p0.x, &fdf->c.p0.y, &fdf->c.p1.x, &fdf->c.p1.y, fdf->map[i][j], fdf->map[i + 1][j], fdf);
 			draw_line(fdf);
 			i++;
 		}
 		j++;
 	}
 	return (0);
+} */
+
+t_point	new_c(t_point *point, int x, int y, int z)
+{
+	point->x = x;
+	point->y = y;
+	point->z = z;
+	return(*point);
 }
 
 int		draw_map(t_struct *fdf)
 {
-	draw_vert(fdf);
-	draw_hor(fdf);
+	int		i;
+	int		j;
+	
+	i = -1;
+	while (++i < fdf->h)
+	{
+		j = -1;
+		while (++j < fdf->w)
+		{
+			if (j != fdf->w - 1)
+			{
+				fdf->col = 0xFFFFFF; //remove this line
+				fdf->c.p0 = new_c(&(fdf->c.p0), j, i, fdf->map[i][j]);
+				fdf->c.p1 = new_c(&(fdf->c.p1), j + 1, i, fdf->map[i][j + 1]);
+				draw_l(change(&fdf->c.p0, fdf), change(&fdf->c.p1, fdf), fdf);
+			}
+			if (i != fdf->h - 1)
+			{
+				fdf->col = 0xFFC000; //remove this line
+				fdf->c.p0 = new_c(&(fdf->c.p0), j, i, fdf->map[i][j]);
+				fdf->c.p1 = new_c(&(fdf->c.p1), j, i + 1, fdf->map[i + 1][j]);
+				draw_l(change(&fdf->c.p0, fdf), change(&fdf->c.p1, fdf), fdf);
+			}
+			//j++;
+		}
+		//i++;
+	}
+	//draw_vert(fdf);
+	//draw_hor(fdf);
 	return (0);
 }
 
