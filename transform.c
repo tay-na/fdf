@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 12:52:43 by tollivan          #+#    #+#             */
-/*   Updated: 2019/12/19 19:40:46 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/12/23 17:57:38 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,15 @@ t_point	change(t_point *point, t_struct *fdf)
 {
 	point->x *= fdf->step;
 	point->y *= fdf->step;
-	point->z *= fdf->step;
-	point->x += fdf->c.start.y;
-	point->y += fdf->c.start.x; 
+	point->z *= fdf->step / fdf->high;
+	point->x -= (fdf->w * fdf->step) / 2;
+	point->y -= (fdf->h * fdf->step) / 2;
 	rotate_x(&point->y, &point->z, fdf);
 	rotate_y(&point->x, &point->z, fdf);
 	rotate_z(&point->x, &point->y, fdf);
 	if (fdf->proj == 150)
-	{
 		iso(&point->x, &point->y, point->z);
-	}
+	point->x += fdf->c.start.y;
+	point->y += fdf->c.start.x; 
 	return (*point);
 }

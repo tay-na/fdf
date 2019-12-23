@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:05:10 by tollivan          #+#    #+#             */
-/*   Updated: 2019/12/19 19:41:35 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/12/23 18:06:08 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	char_to_int(char *map_ch, int **map, t_struct *fdf)
 		if (ft_isdigit(map_ch[i]))
 		{
 			(*map)[c] = ft_atoi(&map_ch[i]);
-			//  printf("%d ", (*map)[c]);
 			c++;
 			while (ft_isdigit(map_ch[i]))
 				i++;
@@ -47,7 +46,6 @@ void	char_to_int(char *map_ch, int **map, t_struct *fdf)
 		else
 			i++;
 	}
-	// printf("\n");
 }
 
 int		get_int_arr(t_struct *fdf, char **map_ch)
@@ -58,19 +56,7 @@ int		get_int_arr(t_struct *fdf, char **map_ch)
 	i = 0;
 	while (map_ch[i])
 	{
-		// printf("privet   ");
 		char_to_int(map_ch[i], &(fdf->map[i]), fdf);
-		/* printf("%d   ", fdf->map[i][0]);
-		printf("%d   ", fdf->map[i][1]);
-		printf("%d   ", fdf->map[i][2]);
-		printf("%d   ", fdf->map[i][3]);
-		printf("%d   ", fdf->map[i][4]);
-		printf("%d   ", fdf->map[i][5]);
-		printf("%d   ", fdf->map[i][6]);
-		printf("%d   ", fdf->map[i][7]);
-		printf("%d   ", fdf->map[i][8]);
-		printf("%d   ", fdf->map[i][9]); */
-		// printf("%d\n", fdf->map[i][10]);
 		i++;
 	}
 	return (0);
@@ -102,13 +88,9 @@ int		read_map(char *argv, t_struct *fdf)//add returns
 	}
 	map_ch[j] = NULL;
 	get_int_arr(fdf, map_ch);
-	// printf("check1");
 	fdf->c.start.x = HEIGHT / 2;
-	fdf->c.start.y = WIDTH * 5 / 6;
+	fdf->c.start.y = WIDTH / 2;
 	fdf->step = 30;
-	fdf->high = 0;
-	fdf->angle_x = 0;
-	fdf->angle_y = 0;
-	fdf->angle_z = 0;
+	fdf->high = 1;
 	return (1);
 }
