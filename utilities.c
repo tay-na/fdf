@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 19:19:33 by tollivan          #+#    #+#             */
-/*   Updated: 2019/12/23 15:26:38 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/12/25 17:34:50 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,3 +32,24 @@ t_point	new_c(t_point *point, int x, int y, int z)
 	point->z = z;
 	return(*point);
 }
+/* 
+int		check_char(char s)
+{
+	if (s >= '0' && s <= '9' || s >= 'a' && s <= 'f' || s >= 'A' && s <= )
+}
+
+int		atoi_base(char *str, int base)
+{
+	int	i;
+	int	sign;
+	
+	i = 0;
+	sign = 1;
+	while (ft_isspace(&str[i]))
+		i++;
+	if (str[i] == '-')
+		sign = -1;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	while (str[i] >= 0 && str[i] <= )
+} */
