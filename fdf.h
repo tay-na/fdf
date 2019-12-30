@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 13:37:38 by tollivan          #+#    #+#             */
-/*   Updated: 2019/12/19 19:40:38 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/12/30 18:00:22 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 
 # include <stdio.h>
 
-# define WIDTH 1900
-# define HEIGHT 1200
+# define WIDTH 2800
+# define HEIGHT 1800
+# define MENU_W 500
+# define MENU_H 1800
 # define ISO 0.523599
 
 typedef struct	s_point
@@ -47,9 +49,10 @@ typedef struct	s_struct
 	void		*img_ptr;
 	int			*img_pix;
 	int			**map;
+	int			**color;
 	int			w;
 	int			h;
-	int			high;
+	float		high;
 	int			step;
 	double		angle_x;
 	double		angle_y;
@@ -59,7 +62,7 @@ typedef struct	s_struct
 	t_coords	c;
 }				t_struct;
 
-void	char_to_int(char *map_ch, int **map, t_struct *fdf);
+void	char_to_int(char *map_ch, int **map, int **color, t_struct *fdf);
 int		get_int_arr(t_struct *fdf, char **map_ch);
 int		read_map(char *argv, t_struct *fdf);
 void	put_pixel(t_struct *fdf, int x, int y);
@@ -72,5 +75,40 @@ int		key_press(int key, t_struct *fdf);
 void	move_map(int key, t_struct *fdf);
 void	erase_image(t_struct *fdf);
 t_point	change(t_point *point, t_struct *fdf);
+t_point	new_c(t_point *point, int x, int y, int z);
+void	menu_window(t_struct *fdf);
+int		ft_atoi_base(char *str, int base);
 
 #endif
+
+//|| (ft_toupper(map_ch[i]) >= 'A' && ft_toupper(map_ch[i]) <= 'F')
+/* 
+while(map_ch[i])
+	{
+		if (map_ch[i] == ',')
+		{
+			//i++;
+       		if (map_ch[i + 1] == '0' && map_ch[i + 2] == 'x')
+        	{
+				i += 3;
+        		(*color)[f] = ft_atoi_base(&map_ch[i], 16);
+        		f++;
+        		while (ft_isdigit(map_ch[i]) || (ft_toupper(map_ch[i]) >= 'A' && ft_toupper(map_ch[i]) <= 'F'))
+           			i++;
+			}
+ 		}
+		else if (ft_isdigit(map_ch[i]))
+		{
+			(*map)[c] = ft_atoi(&map_ch[i]);
+			c++;
+			while (ft_isdigit(map_ch[i]))
+				i++;
+		}
+       	else
+       	{
+          	i++;
+       		(*color)[f] = 1;
+       		f++;
+       	}
+		//i++;
+	} */

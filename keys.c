@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 18:20:54 by tollivan          #+#    #+#             */
-/*   Updated: 2019/12/23 18:29:31 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/12/27 17:59:28 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	move_map(int key, t_struct *fdf)
 		fdf->c.start.x -= 10;
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
+	menu_window(fdf);
 }
 
 void	zoom_map(int key, t_struct *fdf)
@@ -45,6 +46,7 @@ void	zoom_map(int key, t_struct *fdf)
 		fdf->high = 10;
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);	
+	menu_window(fdf);
 }
 
 void	change_projection(int key, t_struct *fdf)
@@ -59,6 +61,7 @@ void	change_projection(int key, t_struct *fdf)
 		fdf->proj = 0;
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
+	menu_window(fdf);
 }
 
 void	rotate(int key, t_struct *fdf)
@@ -78,6 +81,7 @@ void	rotate(int key, t_struct *fdf)
 		fdf->angle_z -= 0.05;
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
+	menu_window(fdf);
 }
 
 int		key_press(int key, t_struct *fdf)

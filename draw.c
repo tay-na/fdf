@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:10:00 by tollivan          #+#    #+#             */
-/*   Updated: 2019/12/24 15:16:57 by tollivan         ###   ########.fr       */
+/*   Updated: 2019/12/27 17:58:05 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	put_pixel(t_struct *fdf, int x, int y)
 	int		p;
 
 	p = y * WIDTH + x;
-	if (x > 0 && x < WIDTH && y > 0 && y < HEIGHT)
-	fdf->img_pix[p] = fdf->col; 
+	if (x >= MENU_W && x < WIDTH && y > 0 && y < HEIGHT)
+		fdf->img_pix[p] = fdf->col; 
 }
 
 void	draw_line_bes(t_struct *fdf)
@@ -100,6 +100,7 @@ int		draw_window(t_struct *fdf)
 	fdf->img_pix = (int *)mlx_get_data_addr(fdf->img_ptr, &bpp, &s_l, &end);
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
+	menu_window(fdf);
 	mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
 	mlx_loop(fdf->mlx_ptr);
 	return (0);
