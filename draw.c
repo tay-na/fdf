@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:10:00 by tollivan          #+#    #+#             */
-/*   Updated: 2019/12/24 15:16:57 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/13 18:07:20 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	put_pixel(t_struct *fdf, int x, int y)
 	int		p;
 
 	p = y * WIDTH + x;
-	if (x > 0 && x < WIDTH && y > 0 && y < HEIGHT)
-	fdf->img_pix[p] = fdf->col; 
+	if (x >= MENU_W && x < WIDTH && y > 0 && y < HEIGHT)
+		fdf->img_pix[p] = fdf->col; 
 }
 
 void	draw_line_bes(t_struct *fdf)
@@ -58,6 +58,14 @@ void	draw_l(t_point p0, t_point p1, t_struct *fdf)
 	draw_line_bes(fdf);
 }
 
+void	assign_color(t_struct *fdf, int i, int j)
+{
+	if (fdf->color[i][j] == 1)
+		fdf->col = 0xFFFFFF;
+	else
+		fdf->col = fdf->color[i][j];
+}
+
 int		draw_map(t_struct *fdf)
 {
 	int		i;
@@ -69,16 +77,17 @@ int		draw_map(t_struct *fdf)
 		j = -1;
 		while (++j < fdf->w)
 		{
+			assign_color(fdf, i, j);
+			// printf("int  %d  ", fdf->color[i][j]);
+			// printf("hex  %X  ", fdf->color[i][j]);
 			if (j != fdf->w - 1)
 			{
-				fdf->col = 0xffffff; //remove this line
 				fdf->c.p0 = new_c(&(fdf->c.p0), j, i, fdf->map[i][j]);
 				fdf->c.p1 = new_c(&(fdf->c.p1), j + 1, i, fdf->map[i][j + 1]);
 				draw_l(change(&fdf->c.p0, fdf), change(&fdf->c.p1, fdf), fdf);
 			}
 			if (i != fdf->h - 1)
 			{
-				fdf->col = 0xFFC000; //remove this line
 				fdf->c.p0 = new_c(&(fdf->c.p0), j, i, fdf->map[i][j]);
 				fdf->c.p1 = new_c(&(fdf->c.p1), j, i + 1, fdf->map[i + 1][j]);
 				draw_l(change(&fdf->c.p0, fdf), change(&fdf->c.p1, fdf), fdf);
@@ -100,6 +109,7 @@ int		draw_window(t_struct *fdf)
 	fdf->img_pix = (int *)mlx_get_data_addr(fdf->img_ptr, &bpp, &s_l, &end);
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
+	menu_window(fdf);
 	mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
 	mlx_loop(fdf->mlx_ptr);
 	return (0);

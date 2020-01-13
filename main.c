@@ -6,38 +6,41 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 19:11:06 by tollivan          #+#    #+#             */
-/*   Updated: 2019/12/24 19:42:59 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:42:05 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "errors.h"
 
-static void		ft_free(int **s, size_t i)
+/* static void		ft_free(int **s, int i)
 {
-	while (i > 0)
+	printf("%d\n", i);
+	while (i >= 0)
 	{
 		free(s[i]);
 		i--;
 	}
 	free(s);
-}
+} */
 
 int		main(int argc, char **argv)
 {
 	t_struct	*fdf;
 	
+	errno = 0;
 	if (argc != 2)
-		return (-1);
+		error(USAGE);
 	if (!(fdf = (t_struct *)ft_memalloc(sizeof(t_struct))))
-		return (-1);
+		error(INIT);
 	if (!(read_map(argv[1], fdf)))
-		return (-1);
-	//printf("check2");
+		error(MAP_READ);
 	//validation
 	draw_window(fdf);
-	ft_free(fdf->map, fdf->h);
+	
+	// ft_free(fdf->map, fdf->h);
+	// ft_free(fdf->color, fdf->h);
 	free(fdf);
 	exit(0);
-	//printf("success");
 	return (0);
 }
