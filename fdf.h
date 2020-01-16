@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 13:37:38 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/13 18:37:21 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/16 14:16:57 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define MENU_W 500
 # define MENU_H 1800
 # define ISO 0.523599
+# define HEX "abcdefxABCDEFX"
 
 typedef struct	s_point
 {

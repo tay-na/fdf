@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 19:19:33 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/13 18:42:17 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/14 18:55:58 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void		menu_window(t_struct *fdf)
 	int		y;
 	
 	y = -1;
-	fdf->col = 0xdeeeff;
+	fdf->col = 0xFFE185;
 	while (y++ <= HEIGHT)
 		put_pixel(fdf, MENU_W, y);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
