@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:10:00 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/16 19:10:39 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/17 16:38:32 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	draw_l(t_point p0, t_point p1, t_struct *fdf)
 
 void	assign_color(t_struct *fdf, int i, int j)
 {
-	if (fdf->color[i][j] == 1)
+	if (fdf->color[i][j] == 1 || fdf->color[i][j] > 16777215 || fdf->color[i][j] < 0)
 		fdf->col = 0xFFFFFF;
 	else
 		fdf->col = fdf->color[i][j];
@@ -78,8 +78,6 @@ int		draw_map(t_struct *fdf)
 		while (++j < fdf->w)
 		{
 			assign_color(fdf, i, j);
-			// printf("int  %d  ", fdf->color[i][j]);
-			// printf("hex  %X  ", fdf->color[i][j]);
 			if (j != fdf->w - 1)
 			{
 				fdf->c.p0 = new_c(&(fdf->c.p0), j, i, fdf->map[i][j]);
@@ -107,7 +105,6 @@ int		draw_window(t_struct *fdf)
 	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, WIDTH, HEIGHT, "New window");
 	fdf->img_ptr = mlx_new_image(fdf->mlx_ptr, WIDTH, HEIGHT);
 	fdf->img_pix = (int *)mlx_get_data_addr(fdf->img_ptr, &bpp, &s_l, &end);
-	printf("draw\n");
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 	menu_window(fdf);

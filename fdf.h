@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 13:37:38 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/16 14:16:57 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/17 18:15:43 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,35 +83,3 @@ int		ft_atoi_base(char *str, int base);
 void	error(char *s);
 
 #endif
-
-//|| (ft_toupper(map_ch[i]) >= 'A' && ft_toupper(map_ch[i]) <= 'F')
-/* 
-while(map_ch[i])
-	{
-		if (map_ch[i] == ',')
-		{
-			//i++;
-       		if (map_ch[i + 1] == '0' && map_ch[i + 2] == 'x')
-        	{
-				i += 3;
-        		(*color)[f] = ft_atoi_base(&map_ch[i], 16);
-        		f++;
-        		while (ft_isdigit(map_ch[i]) || (ft_toupper(map_ch[i]) >= 'A' && ft_toupper(map_ch[i]) <= 'F'))
-           			i++;
-			}
- 		}
-		else if (ft_isdigit(map_ch[i]))
-		{
-			(*map)[c] = ft_atoi(&map_ch[i]);
-			c++;
-			while (ft_isdigit(map_ch[i]))
-				i++;
-		}
-       	else
-       	{
-          	i++;
-       		(*color)[f] = 1;
-       		f++;
-       	}
-		//i++;
-	} */

@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 18:20:54 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/14 18:09:30 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/17 15:44:55 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	zoom_map(int key, t_struct *fdf)
 {
 	erase_image(fdf);
 	if (key == 88)
-		fdf->step += 5;
+		fdf->step += 3;
 	if (key == 86)
-		if (fdf->step > 5)
-			fdf->step -= 5;
+		if (fdf->step > 3)
+			fdf->step -= 3;
 	if (key == 91)
 		fdf->high -= 0.1;
 	if (key == 84)
@@ -52,9 +52,6 @@ void	zoom_map(int key, t_struct *fdf)
 void	change_projection(int key, t_struct *fdf)
 {
 	erase_image(fdf);
-	// fdf->angle_x = 0;
-	// fdf->angle_y = 0;
-	// fdf->angle_z = 0;
 	if (key == 87 && fdf->proj == 0)
 		fdf->proj = 150;
 	else
