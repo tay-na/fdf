@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keys.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 18:20:54 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/17 15:44:55 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/19 21:38:11 by wife             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	zoom_map(int key, t_struct *fdf)
 	else if (fdf->high > 10)
 		fdf->high = 10;
 	draw_map(fdf);
-	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);	
+	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 	menu_window(fdf);
 }
 
@@ -91,7 +91,8 @@ int		key_press(int key, t_struct *fdf)
 		zoom_map(key, fdf);
 	if (key == 87)
 		change_projection(key, fdf);
-	if (key == 65 || key == 82 || key == 83 || key == 85 || key == 89 || key == 92)
+	if (key == 65 || key == 82 || key == 83 || key == 85 ||
+		key == 89 || key == 92)
 		rotate(key, fdf);
 	return (0);
 }

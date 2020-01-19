@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 13:37:38 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/17 18:15:43 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/19 19:24:42 by wife             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 
 # include <stdio.h>
 
-# define WIDTH 2800
-# define HEIGHT 1800
+# define WIDTH 1900
+# define HEIGHT 1000
 # define MENU_W 500
 # define MENU_H 1800
 # define ISO 0.523599

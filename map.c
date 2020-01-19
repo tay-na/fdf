@@ -3,24 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:05:10 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/17 20:28:39 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/20 00:09:46 by wife             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "errors.h"
 
-int		is_hex(char map_ch)
-{
-	if (ft_isdigit(map_ch) || ft_strchr(HEX, map_ch) != NULL)
-		return (1);
-	return (0);
-}
 
-int		get_width(char *map_ch)
+int		get_width(char *map_ch) /* 21 lines*/
 {
 	int	i;
 	int	c;
@@ -45,7 +39,7 @@ int		get_width(char *map_ch)
 	return (c);
 }
 
-void	get_heights(char *map_ch, int **map)
+void	get_heights(char *map_ch, int **map) /* 21 lines*/
 {
 	int	i;
 	int	h;
@@ -70,7 +64,7 @@ void	get_heights(char *map_ch, int **map)
 	}
 }
 
-void	get_colors(char *map_ch, int **color)
+void	get_colors(char *map_ch, int **color) /* 31 lines*/
 {
 	int	i;
 	int	c;
@@ -103,23 +97,29 @@ void	get_colors(char *map_ch, int **color)
 		i++;
 	}
 }
-
+/*
 int		check_width(int	string, int width)
 {
 	if (width != string)
 		return (1);
 	return (0);
 }
-
-void	char_to_int(char *map_ch, int **map, int **color, t_struct *fdf)
+*/
+void	char_to_int(char *map_ch, int **map, int **color, t_struct *fdf) /* 17 lines */
 {
-	
+	int		width;
+
+	width = 0;
 	if (fdf->w == 0)
 		fdf->w = get_width(map_ch);
 	else
-		if ((check_width(get_width(map_ch), fdf->w)) == 1)
+	{
+		width = get_width(map_ch);
+		if (width != fdf->w)
 			error(MAP_FORMAT);
-	printf("width   %d\n", fdf->w);
+	}
+		// if ((check_width(get_width(map_ch), fdf->w)) == 1)
+		// 	error(MAP_FORMAT);
 	if (!(*map = (int *)ft_memalloc(sizeof(int) * fdf->w)))
 		error(INIT);
 	if (!(*color = (int *)ft_memalloc(sizeof(int) * fdf->w)))
@@ -127,19 +127,7 @@ void	char_to_int(char *map_ch, int **map, int **color, t_struct *fdf)
 	get_heights(map_ch, map);
 	get_colors(map_ch, color);
 }
-
-static void		ft_free_ch(char **s)
-{
-	int		i = 0;
-	
-	while (s[i])
-	{
-		free(s[i]);
-		// printf("i1   %d\n", i);
-		i++;
-	}
-	free(s);
-} 
+ 
 
 int		get_int_arr(t_struct *fdf, char **map_ch)
 {
@@ -168,12 +156,11 @@ int		check_argv(char *argv)
 		return (0);	
 }
 
-int		read_map(char *argv, t_struct *fdf)//add returns
+int		read_map(char *argv, t_struct *fdf)
 {
 	char	**map_ch;
 	int		fd;
 	int		i;
-	// int		j;
 	char	*line;
 	
 	if (!(fd = open(argv, O_RDONLY)))
@@ -187,10 +174,8 @@ int		read_map(char *argv, t_struct *fdf)//add returns
 	while (get_next_line(fd, &line))
 	{
 		ft_strdel(&line);
-		// printf("i   %d\n", i);
 		i++;
 	}
-	// printf("i final   %d\n", i);
 	close(fd);
 	if (!(fd = open(argv, O_RDONLY)))
 		error(FILE_READ);
@@ -201,13 +186,10 @@ int		read_map(char *argv, t_struct *fdf)//add returns
 	while (get_next_line(fd, &line))
 	{
 		map_ch[i] = ft_strdup(line);
-		// printf("j   %d\n", i);
-		free(line);
+		ft_strdel(&line);
 		i++;
 	}
-	// printf("j final   %d\n", i);
 	map_ch[i] = NULL;
-	// close(fd);
 	get_int_arr(fdf, map_ch);
 	fdf->c.start.x = HEIGHT / 2;
 	fdf->c.start.y = (WIDTH + MENU_W) / 2;

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:10:00 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/17 16:38:32 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/19 20:59:34 by wife             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include "errors.h"
 
 void	put_pixel(t_struct *fdf, int x, int y)
 {
@@ -58,19 +59,11 @@ void	draw_l(t_point p0, t_point p1, t_struct *fdf)
 	draw_line_bes(fdf);
 }
 
-void	assign_color(t_struct *fdf, int i, int j)
-{
-	if (fdf->color[i][j] == 1 || fdf->color[i][j] > 16777215 || fdf->color[i][j] < 0)
-		fdf->col = 0xFFFFFF;
-	else
-		fdf->col = fdf->color[i][j];
-}
-
 int		draw_map(t_struct *fdf)
 {
 	int		i;
 	int		j;
-	
+
 	i = -1;
 	while (++i < fdf->h)
 	{
@@ -100,15 +93,21 @@ int		draw_window(t_struct *fdf)
 	int		bpp;
 	int		s_l;
 	int		end;
-	
-	fdf->mlx_ptr = mlx_init();
-	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, WIDTH, HEIGHT, "New window");
-	fdf->img_ptr = mlx_new_image(fdf->mlx_ptr, WIDTH, HEIGHT);
-	fdf->img_pix = (int *)mlx_get_data_addr(fdf->img_ptr, &bpp, &s_l, &end);
+
+	if (!(fdf->mlx_ptr = mlx_init()))
+		error(INIT);
+	if (!(fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, WIDTH, HEIGHT, "FDF")))
+		error(INIT);
+	if (!(fdf->img_ptr = mlx_new_image(fdf->mlx_ptr, WIDTH, HEIGHT)))
+		error(INIT);
+	if (!(fdf->img_pix = (int *)mlx_get_data_addr(fdf->img_ptr,
+		&bpp, &s_l, &end)))
+		error(INIT);
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 	menu_window(fdf);
-	mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
+	// mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
+	mlx_key_hook(fdf->win_ptr, key_press, fdf);
 	mlx_loop(fdf->mlx_ptr);
 	return (0);
 }
