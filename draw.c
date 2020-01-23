@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:10:00 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/19 20:59:34 by wife             ###   ########.fr       */
+/*   Updated: 2020/01/23 17:24:35 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	put_pixel(t_struct *fdf, int x, int y)
 
 	p = y * WIDTH + x;
 	if (x >= MENU_W && x < WIDTH && y > 0 && y < HEIGHT)
-		fdf->img_pix[p] = fdf->col; 
+		fdf->img_pix[p] = get_color(x, y, fdf);
 }
 
 void	draw_line_bes(t_struct *fdf)
@@ -70,17 +70,16 @@ int		draw_map(t_struct *fdf)
 		j = -1;
 		while (++j < fdf->w)
 		{
-			assign_color(fdf, i, j);
 			if (j != fdf->w - 1)
 			{
-				fdf->c.p0 = new_c(&(fdf->c.p0), j, i, fdf->map[i][j]);
-				fdf->c.p1 = new_c(&(fdf->c.p1), j + 1, i, fdf->map[i][j + 1]);
+				fdf->c.p0 = new_c(&(fdf->c.p0), j, i, fdf);
+				fdf->c.p1 = new_c(&(fdf->c.p1), j + 1, i, fdf);
 				draw_l(change(&fdf->c.p0, fdf), change(&fdf->c.p1, fdf), fdf);
 			}
 			if (i != fdf->h - 1)
 			{
-				fdf->c.p0 = new_c(&(fdf->c.p0), j, i, fdf->map[i][j]);
-				fdf->c.p1 = new_c(&(fdf->c.p1), j, i + 1, fdf->map[i + 1][j]);
+				fdf->c.p0 = new_c(&(fdf->c.p0), j, i, fdf);
+				fdf->c.p1 = new_c(&(fdf->c.p1), j, i + 1, fdf);
 				draw_l(change(&fdf->c.p0, fdf), change(&fdf->c.p1, fdf), fdf);
 			}
 		}
@@ -106,8 +105,8 @@ int		draw_window(t_struct *fdf)
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 	menu_window(fdf);
-	// mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
-	mlx_key_hook(fdf->win_ptr, key_press, fdf);
+	mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
+	mlx_hook(fdf->win_ptr, 17, 0, close, fdf);
 	mlx_loop(fdf->mlx_ptr);
 	return (0);
 }

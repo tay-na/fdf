@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:05:10 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/20 00:09:46 by wife             ###   ########.fr       */
+/*   Updated: 2020/01/23 17:04:24 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,47 +64,35 @@ void	get_heights(char *map_ch, int **map) /* 21 lines*/
 	}
 }
 
-void	get_colors(char *map_ch, int **color) /* 31 lines*/
+void	get_colors(char *map_ch, int **color) /* 25 lines*/
 {
 	int	i;
 	int	c;
 
-	i = 0;
-	c = 0;
-	while (i < (int)ft_strlen(map_ch))
+	i = -1;
+	c = -1;
+	while (++i < (int)ft_strlen(map_ch))
 	{
 		if (ft_isdigit(map_ch[i]))
 		{
 			while (ft_isdigit(map_ch[i]))
 				i++;
 			if (map_ch[i] == ' ' || map_ch[i] != ',')
-			{
-				(*color)[c] = 1;
-				c++;
-			}
+				(*color)[++c] = 1;
 		}
 		if (map_ch[i] == ',')
 		{
 			if (map_ch[i + 1] == '0' && ft_toupper(map_ch[i + 2]) == 'X')
         	{
 				i += 3;
-        		(*color)[c] = ft_atoi_base(&map_ch[i], 16);
-        		c++;
+        		(*color)[++c] = ft_atoi_base(&map_ch[i], 16);
         		while (is_hex(map_ch[i]))
 					i++;
 			}
 		}
-		i++;
 	}
 }
-/*
-int		check_width(int	string, int width)
-{
-	if (width != string)
-		return (1);
-	return (0);
-}
-*/
+
 void	char_to_int(char *map_ch, int **map, int **color, t_struct *fdf) /* 17 lines */
 {
 	int		width;
@@ -118,8 +106,6 @@ void	char_to_int(char *map_ch, int **map, int **color, t_struct *fdf) /* 17 line
 		if (width != fdf->w)
 			error(MAP_FORMAT);
 	}
-		// if ((check_width(get_width(map_ch), fdf->w)) == 1)
-		// 	error(MAP_FORMAT);
 	if (!(*map = (int *)ft_memalloc(sizeof(int) * fdf->w)))
 		error(INIT);
 	if (!(*color = (int *)ft_memalloc(sizeof(int) * fdf->w)))
@@ -128,8 +114,36 @@ void	char_to_int(char *map_ch, int **map, int **color, t_struct *fdf) /* 17 line
 	get_colors(map_ch, color);
 }
  
+ void	height_extremum(t_struct *fdf)
+ {
+	int		i;
+	int		j;
 
-int		get_int_arr(t_struct *fdf, char **map_ch)
+	i = -1;
+	while (++i < fdf->h)
+	{
+		j = 0;
+		while (j < fdf->w)
+		{
+			fdf->z_max = ft_ismax(fdf->map[i][j], fdf->z_max);
+			j++;
+		}
+	}
+	i = 0;
+	while (i < fdf->h)
+	{
+		j = 0;
+		while (j < fdf->w)
+		{
+				fdf->z_min = ft_ismin(fdf->map[i][j], fdf->z_min);
+				color_gradient(&(fdf->color)[i][j], i, j, fdf);
+			j++;
+		}
+		i++;
+	}
+ }
+
+int		get_int_arr(t_struct *fdf, char **map_ch) /* 14 lines */
 {
 	int	i;
 
@@ -143,32 +157,24 @@ int		get_int_arr(t_struct *fdf, char **map_ch)
 		char_to_int(map_ch[i], &(fdf->map[i]), &(fdf->color[i]), fdf);
 		i++;
 	}
+	height_extremum(fdf);
 	ft_free_ch(map_ch);
 	return (0);
 }
 
 
-int		check_argv(char *argv)
+void	check_argv_for_height(char *argv, t_struct *fdf) /* 19 lines */
 {
-	if (!(ft_strstr(argv, ".fdf")))
-		return (1);
-	else
-		return (0);	
-}
-
-int		read_map(char *argv, t_struct *fdf)
-{
-	char	**map_ch;
 	int		fd;
-	int		i;
 	char	*line;
+	int		i;
 	
 	if (!(fd = open(argv, O_RDONLY)))
 		error(FILE_READ);
 	if ((get_next_line(fd, &line) == -1))
 		error(FILE_READ);
 	ft_strdel(&line);
-	if (check_argv(argv) == 1)
+	if (!(ft_strstr(argv, ".fdf")))
 		error(USAGE);
 	i = 1;
 	while (get_next_line(fd, &line))
@@ -176,10 +182,20 @@ int		read_map(char *argv, t_struct *fdf)
 		ft_strdel(&line);
 		i++;
 	}
+	fdf->h = i;
 	close(fd);
+}
+
+int		read_map(char *argv, t_struct *fdf) /* 22 lines */
+{
+	char	**map_ch;
+	int		fd;
+	int		i;
+	char	*line;
+	
+	check_argv_for_height(argv, fdf);
 	if (!(fd = open(argv, O_RDONLY)))
 		error(FILE_READ);
-	fdf->h = i;
 	if (!(map_ch = (char **)ft_memalloc(sizeof(char *) * (fdf->h + 1))))
 		error(INIT);
 	i = 0;

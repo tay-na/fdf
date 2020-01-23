@@ -11,53 +11,118 @@ double	percent(int start, int end, int current)
 	return ((distance == 0) ? 1.0 : (placement / distance));
 }
 
-
-int	get_default_color(int z, t_struct *fdf)
+/* 
+void	color_gradient(int *color, int i, int j, t_struct *fdf)
 {
-	double	percentage;
+	double		percentage;
 
-	percentage = percent(, map->z_max, z);
-	if (percentage < 0.2)
-		return (AMBER);
-	else if (percentage < 0.4)
-		return (HIPPIE_PINK);
-	else if (percentage < 0.6)
-		return (POMPADUR);
-	else if (percentage < 0.8)
-		return (TYRIAN_PURPLE);
-	else
-		return (INDIGO);
+	percentage = percent(fdf->z_min, fdf->z_max, fdf->map[i][j]);
+	if (*color == 1 && percentage < 0.2)
+		*color = INDIGO;
+	else if (*color == 1 && percentage < 0.4)
+		*color = TYRIAN_PURPLE;
+	else if (*color == 1 && percentage < 0.6)
+		*color = POMPADUR;
+	else if (*color == 1 && percentage < 0.8)
+		*color = HIPPIE_PINK;
+	else if (*color == 1 && percentage <= 1)
+		*color = AMBER;
+} */
+
+
+void	color_gradient(int *color, int i, int j, t_struct *fdf)
+{
+	// static int	colors[5] = {INDIGO, TYRIAN_PURPLE, POMPADUR, HIPPIE_PINK, AMBER};
+	double		percentage;
+
+	percentage = percent(fdf->z_min, fdf->z_max, fdf->map[i][j]);
+	if (fdf->col_count == 0)
+	{
+		if (*color == 1 && percentage < 0.2)
+			*color = INDIGO;
+		else if (*color == 1 && percentage < 0.4)
+			*color = TYRIAN_PURPLE;
+		else if (*color == 1 && percentage < 0.6)
+			*color = POMPADUR;
+		else if (*color == 1 && percentage < 0.8)
+			*color = HIPPIE_PINK;
+		else if (*color == 1 && percentage <= 1)
+			*color = AMBER;
+	}
+	if (fdf->col_count == 1)
+	{
+		if (percentage < 0.2)
+			*color = TYRIAN_PURPLE;
+		else if (percentage < 0.4)
+			*color = POMPADUR;
+		else if (percentage < 0.6)
+			*color = HIPPIE_PINK;
+		else if (percentage < 0.8)
+			*color = AMBER;
+		else if (percentage <= 1)
+			*color = INDIGO;
+	}
+	if (fdf->col_count == 2)
+	{
+		if (percentage < 0.2)
+			*color = POMPADUR;
+		else if (percentage < 0.4)
+			*color = HIPPIE_PINK;
+		else if (percentage < 0.6)
+			*color = AMBER;
+		else if (percentage < 0.8)
+			*color = INDIGO;
+		else if (percentage <= 1)
+			*color = TYRIAN_PURPLE;
+	}
+	if (fdf->col_count == 3)
+	{
+		if (percentage < 0.2)
+			*color = HIPPIE_PINK;
+		else if (percentage < 0.4)
+			*color = AMBER;
+		else if (percentage < 0.6)
+			*color = INDIGO;
+		else if (percentage < 0.8)
+			*color = TYRIAN_PURPLE;
+		else if (percentage <= 1)
+			*color = POMPADUR;
+	}
+	if (fdf->col_count == 4)
+	{
+		if (percentage < 0.2)
+			*color = AMBER;
+		else if (percentage < 0.4)
+			*color = INDIGO;
+		else if (percentage < 0.6)
+			*color = TYRIAN_PURPLE;
+		else if (percentage < 0.8)
+			*color = POMPADUR;
+		else if (percentage <= 1)
+			*color = HIPPIE_PINK;
+	}
 }
-
 
 int get_light(int start, int end, double percentage)
 {
     return ((int)((1 - percentage) * start + percentage * end));
 }
 
-int get_color(t_point current, t_point start, t_point end, t_point delta)
+int get_color(int x, int y, t_struct *fdf)
 {
-    int     red;
-    int     green;
-    int     blue;
-    double  percentage;
+	int     red;
+	int     green;
+	int     blue;
+	double  percentage;
 
-    if (current.color == end.color)
-        return (current.color);
-    if (delta.x > delta.y)
-        percentage = percent(start.x, end.x, current.x);
-    else
-        percentage = percent(start.y, end.y, current.y);
-    red = get_light((start.color >> 16) & 0xFF, (end.color >> 16) & 0xFF, percentage);
-    green = get_light((start.color >> 8) & 0xFF, (end.color >> 8) & 0xFF, percentage);
-    blue = get_light(start.color & 0xFF, end.color & 0xFF, percentage);
-    return ((red << 16) | (green << 8) | blue);
-}
-
-void	assign_color(t_struct *fdf, int i, int j)
-{
-	if (fdf->color[i][j] == 1 || fdf->color[i][j] > 16777215 || fdf->color[i][j] < 0)
-		fdf->col = 0xE06666;
+	if (fdf->c.p0.col == fdf->c.p1.col)
+		return (fdf->c.p0.col);
+	if (fdf->c.d.x > fdf->c.d.y)
+		percentage = percent(fdf->c.p0.x, fdf->c.p1.x, x);
 	else
-		fdf->col = fdf->color[i][j];
+		percentage = percent(fdf->c.p0.y, fdf->c.p1.y, y);
+	red = get_light((fdf->c.p0.col >> 16) & 0xFF, (fdf->c.p1.col >> 16) & 0xFF, percentage);
+	green = get_light((fdf->c.p0.col >> 8) & 0xFF, (fdf->c.p1.col >> 8) & 0xFF, percentage);
+	blue = get_light(fdf->c.p0.col & 0xFF, fdf->c.p1.col & 0xFF, percentage);
+	return ((red << 16) | (green << 8) | blue);
 }
