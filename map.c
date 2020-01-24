@@ -6,94 +6,28 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:05:10 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/23 17:04:24 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/24 19:37:00 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "errors.h"
 
-
-int		get_width(char *map_ch) /* 21 lines*/
+void	check_validity(char *map_ch)
 {
 	int	i;
-	int	c;
-	
-	i = 0;
-	c = 0;
-	while (i < (int)ft_strlen(map_ch))
-	{
- 		if (ft_isdigit(map_ch[i]))
-		{
-			c++;
-			while ((map_ch[i] == ',' || is_hex(map_ch[i])))
-			{
-				i++;
-				if (i == (int)ft_strlen(map_ch))
-					break ;
-			}
-		}
-		else
-			i++;
-	}
-	return (c);
-}
-
-void	get_heights(char *map_ch, int **map) /* 21 lines*/
-{
-	int	i;
-	int	h;
 
 	i = 0;
-	h = 0;
 	while (i < (int)ft_strlen(map_ch))
 	{
-		if (ft_isdigit(map_ch[i]))
-		{
-			(*map)[h] = ft_atoi(&map_ch[i]);
-			h++;
-			while (map_ch[i] == ',' || is_hex(map_ch[i]))
-			{
-				i++;
-				if (i == (int)ft_strlen(map_ch))
-					break ;
-			}
-		}
-		else
-			i++;
+		if (is_hex(map_ch[i]) == 0 && map_ch[i] != ' ' && map_ch[i] != ',' &&
+					map_ch[i] != '-')
+			error(MAP_FORMAT);
+		i++;
 	}
 }
 
-void	get_colors(char *map_ch, int **color) /* 25 lines*/
-{
-	int	i;
-	int	c;
-
-	i = -1;
-	c = -1;
-	while (++i < (int)ft_strlen(map_ch))
-	{
-		if (ft_isdigit(map_ch[i]))
-		{
-			while (ft_isdigit(map_ch[i]))
-				i++;
-			if (map_ch[i] == ' ' || map_ch[i] != ',')
-				(*color)[++c] = 1;
-		}
-		if (map_ch[i] == ',')
-		{
-			if (map_ch[i + 1] == '0' && ft_toupper(map_ch[i + 2]) == 'X')
-        	{
-				i += 3;
-        		(*color)[++c] = ft_atoi_base(&map_ch[i], 16);
-        		while (is_hex(map_ch[i]))
-					i++;
-			}
-		}
-	}
-}
-
-void	char_to_int(char *map_ch, int **map, int **color, t_struct *fdf) /* 17 lines */
+void	char_to_int(char *map_ch, int **map, int **color, t_struct *fdf)
 {
 	int		width;
 
@@ -113,37 +47,8 @@ void	char_to_int(char *map_ch, int **map, int **color, t_struct *fdf) /* 17 line
 	get_heights(map_ch, map);
 	get_colors(map_ch, color);
 }
- 
- void	height_extremum(t_struct *fdf)
- {
-	int		i;
-	int		j;
 
-	i = -1;
-	while (++i < fdf->h)
-	{
-		j = 0;
-		while (j < fdf->w)
-		{
-			fdf->z_max = ft_ismax(fdf->map[i][j], fdf->z_max);
-			j++;
-		}
-	}
-	i = 0;
-	while (i < fdf->h)
-	{
-		j = 0;
-		while (j < fdf->w)
-		{
-				fdf->z_min = ft_ismin(fdf->map[i][j], fdf->z_min);
-				color_gradient(&(fdf->color)[i][j], i, j, fdf);
-			j++;
-		}
-		i++;
-	}
- }
-
-int		get_int_arr(t_struct *fdf, char **map_ch) /* 14 lines */
+int		get_int_arr(t_struct *fdf, char **map_ch)
 {
 	int	i;
 
@@ -154,6 +59,7 @@ int		get_int_arr(t_struct *fdf, char **map_ch) /* 14 lines */
 	i = 0;
 	while (i < fdf->h)
 	{
+		check_validity(map_ch[i]);
 		char_to_int(map_ch[i], &(fdf->map[i]), &(fdf->color[i]), fdf);
 		i++;
 	}
@@ -162,13 +68,12 @@ int		get_int_arr(t_struct *fdf, char **map_ch) /* 14 lines */
 	return (0);
 }
 
-
-void	check_argv_for_height(char *argv, t_struct *fdf) /* 19 lines */
+void	check_argv_and_get_height(char *argv, t_struct *fdf)
 {
 	int		fd;
 	char	*line;
 	int		i;
-	
+
 	if (!(fd = open(argv, O_RDONLY)))
 		error(FILE_READ);
 	if ((get_next_line(fd, &line) == -1))
@@ -186,14 +91,14 @@ void	check_argv_for_height(char *argv, t_struct *fdf) /* 19 lines */
 	close(fd);
 }
 
-int		read_map(char *argv, t_struct *fdf) /* 22 lines */
+int		read_map(char *argv, t_struct *fdf)
 {
 	char	**map_ch;
 	int		fd;
 	int		i;
 	char	*line;
-	
-	check_argv_for_height(argv, fdf);
+
+	check_argv_and_get_height(argv, fdf);
 	if (!(fd = open(argv, O_RDONLY)))
 		error(FILE_READ);
 	if (!(map_ch = (char **)ft_memalloc(sizeof(char *) * (fdf->h + 1))))
@@ -207,7 +112,6 @@ int		read_map(char *argv, t_struct *fdf) /* 22 lines */
 	}
 	map_ch[i] = NULL;
 	get_int_arr(fdf, map_ch);
-	fdf->c.start.x = HEIGHT / 2;
-	fdf->c.start.y = (WIDTH + MENU_W) / 2;
+	assign_color(fdf);
 	return (1);
 }

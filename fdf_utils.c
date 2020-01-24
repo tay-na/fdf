@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 14:40:52 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/23 19:23:58 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/24 19:11:51 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_struct	*initialize(void)
 	fdf->z_min = 0;
 	fdf->z_max = 0;
 	fdf->col_count = 0;
+	fdf->c.start.x = HEIGHT / 2;
+	fdf->c.start.y = (WIDTH + MENU_W) / 2;
 	return (fdf);
 }
 
@@ -55,7 +57,7 @@ void		menu_window(t_struct *fdf)
 	y = -1;
 	fdf->col = 0xFFE185;
 	while (y++ <= HEIGHT)
-		fdf->img_pix[y * WIDTH + MENU_W] = fdf->col;;
+		fdf->img_pix[y * WIDTH + MENU_W] = fdf->col;
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 200, 50, fdf->col, HOW_TO);
 	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 100, fdf->col, MOVE);
@@ -73,4 +75,24 @@ void		menu_window(t_struct *fdf)
 	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 75, 680, fdf->col, X_L_R);
 	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 730, fdf->col, RESET);
 	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 75, 780, fdf->col, RESET_CH);
+	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 830, fdf->col, PARTY_P);
+	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 75, 880, fdf->col, P_PARROT);
+}
+
+int			key_press(int key, t_struct *fdf)
+{
+	if (!fdf || key == 53)
+		exit(0);
+	if (key >= 123 && key <= 126)
+		move_map(key, fdf);
+	if (key == 69 || key == 78 || key == 84 || key == 91)
+		zoom_map(key, fdf);
+	if (key == 87)
+		change_projection(key, fdf);
+	if (key == 88 || key == 86 || key == 83 || key == 85 ||
+		key == 89 || key == 92)
+		rotate(key, fdf);
+	if (key == 82 || key == 67)
+		restore(key, fdf);
+	return (0);
 }

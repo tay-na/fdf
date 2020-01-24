@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 14:58:33 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/23 18:39:27 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/24 19:18:29 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,7 @@
 # define X_L_R "Left / Right: NumPad 4 / NumPad 6"
 # define RESET "Reset changes"
 # define RESET_CH "Reset:        NumPad 0"
+# define PARTY_P "Party Parrot"
+# define P_PARROT "Mode On:       NumPad *"
 
 #endif

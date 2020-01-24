@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 18:20:54 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/23 19:14:08 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/24 19:01:20 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	restore(int key, t_struct *fdf)
 		fdf->angle_z = 0;
 		fdf->c.start.x = HEIGHT / 2;
 		fdf->c.start.y = (WIDTH + MENU_W) / 2;
+		fdf->col_count = 0;
 	}
 	if (key == 67)
 	{
@@ -100,28 +101,9 @@ void	restore(int key, t_struct *fdf)
 			fdf->col_count++;
 		if (fdf->col_count == 5)
 			fdf->col_count = 0;
-		height_extremum(fdf);
 	}
+	change_color(fdf);
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 	menu_window(fdf);
 }
-
-int		key_press(int key, t_struct *fdf)
-{
-	if (!fdf || key == 53)
-		exit(0);
-	if (key >= 123 && key <= 126)
-		move_map(key, fdf);
-	if (key == 69 || key == 78 || key == 84 || key == 91)
-		zoom_map(key, fdf);
-	if (key == 87)
-		change_projection(key, fdf);
-	if (key == 88 || key == 86 || key == 83 || key == 85 ||
-		key == 89 || key == 92)
-		rotate(key, fdf);
-	if (key == 82 || key == 67)
-		restore(key, fdf);
-	return (0);
-}
-

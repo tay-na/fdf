@@ -6,7 +6,7 @@
 /*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 19:19:33 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/23 17:26:39 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/24 19:18:11 by tollivan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ t_point	new_c(t_point *point, int x, int y, t_struct *fdf)
 	point->y = y;
 	point->z = fdf->map[y][x];
 	point->col = fdf->color[y][x];
-	return(*point);
+	return (*point);
 }
-
 
 int		is_hex(char map_ch)
 {
@@ -35,14 +34,15 @@ void	error(char *s)
 	if (errno == 0)
 		ft_putendl_fd(s, 2);
 	else
-		perror(s);	
-	exit (1);
+		perror(s);
+	exit(1);
 }
 
 void	ft_free_ch(char **s)
 {
-	int		i = 0;
-	
+	int		i;
+
+	i = 0;
 	while (s[i])
 	{
 		free(s[i]);
