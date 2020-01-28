@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 13:37:38 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/24 19:35:40 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/29 00:01:12 by wife             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void			assign_color(t_struct *fdf);
 ** color_utils.c
 */
 
-double			percent(int start, int end, int current);
+double			percent(int start, int end, int current, float kos);
 int				color_check(int color);
 int				get_light(int start, int end, double percentage);
 
@@ -151,5 +151,10 @@ t_point			new_c(t_point *point, int x, int y, t_struct *fdf);
 int				is_hex(char map_ch);
 void			error(char *s);
 void			ft_free_ch(char **s);
+
+
+int		ft_atoi_base(const char *str, int base);
+size_t		ft_ismin(size_t a, size_t b);
+int		ft_ismax(int a, int b);
 
 #endif

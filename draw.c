@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 15:10:00 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/23 17:24:35 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/28 22:46:31 by wife             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ int		draw_window(t_struct *fdf)
 	draw_map(fdf);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img_ptr, 0, 0);
 	menu_window(fdf);
-	mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
+	// mlx_hook(fdf->win_ptr, 2, 0, key_press, fdf);
+	mlx_key_hook(fdf->win_ptr, key_press, fdf);
 	mlx_hook(fdf->win_ptr, 17, 0, close, fdf);
 	mlx_loop(fdf->mlx_ptr);
 	return (0);

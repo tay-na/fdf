@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tollivan <tollivan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wife <wife@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 18:53:05 by tollivan          #+#    #+#             */
-/*   Updated: 2020/01/24 19:14:27 by tollivan         ###   ########.fr       */
+/*   Updated: 2020/01/28 23:56:45 by wife             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	height_extremum(t_struct *fdf)
 		while (j < fdf->w)
 		{
 			fdf->z_min = ft_ismin(fdf->map[i][j], fdf->z_min);
-			color_gradient(&(fdf->color)[i][j], i, j, fdf);
+			party_parrot(&(fdf->color)[i][j], i, j, fdf);
 			j++;
 		}
 		i++;
